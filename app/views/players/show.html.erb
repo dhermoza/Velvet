@@ -1,0 +1,11 @@
+<h1><%= @player.nickname %></h1>
+
+<p>ID: <%= @player.id %></p>
+<p>Status: <%= @player.status %></p>
+<p>Ranking: <%= @player.ranking %></p>
+<p>Avatar: <%= @player.avatar %></p>
+
+<ul>
+  <li><%= link_to "Edit", edit_player_path(@player) %></li>
+  <li><%= link_to "Back", players_path %></li>
+</ul>

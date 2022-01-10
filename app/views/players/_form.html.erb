@@ -1,0 +1,29 @@
+<%= form_with model: @player do |form| %>
+  <div>
+    <%= form.label :nickname %><br>
+    <%= form.text_field :nickname %>
+    <% @player.errors.full_messages_for(:nickname).each do |message| %>
+      <div><%= message %></div>
+    <% end %>
+      </div>
+  </div>
+
+  <div>
+    <%= form.label :avatar %><br>
+    <%= form.text_field :avatar %>
+  </div>
+
+  <div>
+    <%= form.label :status %><br>
+    <%= form.text_field :status %>
+  </div>
+
+  <div>
+    <%= form.label :ranking %><br>
+    <%= form.text_field :ranking %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
