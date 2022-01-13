@@ -1,11 +1,15 @@
 <h1><%= @player.nickname %></h1>
 
-<p>ID: <%= @player.id %></p>
-<p>Status: <%= @player.status %></p>
-<p>Ranking: <%= @player.ranking %></p>
-<p>Avatar: <%= @player.avatar %></p>
+<div class="card" style="width: 18rem;">
+  <img src="<%=@player.avatar%>" alt="player.avatar" class="card-img-top">
+  <div class="card-body">
+    <h5>ID: <%= @player.id %></h5>
+    <p>Status: <%= @player.status %></p>
+    <p>Ranking: <%= @player.ranking %></p>
+  </div>
+</div>
 
-<ul>
-  <li><%= link_to "Edit", edit_player_path(@player) %></li>
-  <li><%= link_to "Back", players_path %></li>
-</ul>
+<div>
+  <%= link_to "Edit", edit_player_path(@player) %>
+  <%= link_to "Back", players_path %>
+</div>
