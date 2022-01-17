@@ -2,13 +2,13 @@ class PlayersController < ApplicationController
 
   def index
     @players = Player.all
-    @status_list = ["oro", "bronce", "plata"]
+    @status_list = ["oro", "bronce", "plata", "Oro", "Plata", "Bronce"]
     if params[:status].present?
       @players = Player.where(status: params[:status])
     elsif params[:ranking].present?
       @players = Player.order(ranking: params[:ranking])
     end
-  end  
+  end
 
   def show
     @player = Player.find(params[:id])
