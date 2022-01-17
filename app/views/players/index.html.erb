@@ -7,5 +7,15 @@
     </li>
   <% end %>
 </ul>
+<%= form_with url: players_path, method: :get, local: true do |f| %>
+    <%= f.select :status, options_for_select(Player::STATUS), {},
+                { class:"form-control" }
+                %>
+                 <%= f.select :ranking, options_for_select(Player::RANKING), {},
+                { class:"form-control" }
+                %>
+      <%= f.submit "Filtrar", class: "btn-light-gradient", id: 'filterbtn' %>
 
-<%= link_to "New Player", new_player_path %>
+<% end %>
+
+
