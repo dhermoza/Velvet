@@ -4,7 +4,7 @@ class PlayersController < ApplicationController
     @players = Player.all
     @status_list = ["oro", "bronce", "plata", "Oro", "Plata", "Bronce"]
     if params[:status].present?
-      @players = Player.where(status: params[:status])
+     @players = Player.where(status: params[:status])
     elsif params[:ranking].present?
       @players = Player.order(ranking: params[:ranking])
     end
