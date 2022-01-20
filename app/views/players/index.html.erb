@@ -11,6 +11,7 @@
     </li>
   <% end %>
 </ul>
+
 <%= form_with url: players_path, method: :get, local: true do |f| %>
     <%= f.select :status, options_for_select(Player::STATUS), {},
                 { class:"form-control" }
@@ -19,5 +20,18 @@
                 { class:"form-control" }
                 %>
       <%= f.submit "Filtrar", class: "btn-light-gradient", id: 'filterbtn' %>
-
+  <table  class="table-primary">
+  <tr>
+    <th>Nickname </th>            
+    <th>status </th>                     
+    <th>Ranking </th>
+  </tr>
+ <% @players.each do |player| %>
+  <tr>
+    <td><%= player.nickname%></td>         
+    <td><%=player.status %></td><td>     
+    <td><%=player.ranking %></td>      
+  </tr>
+  <% end %>
+ </table>
 <% end %>

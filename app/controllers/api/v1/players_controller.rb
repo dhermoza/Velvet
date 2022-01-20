@@ -2,7 +2,13 @@ class Api::V1::PlayersController < Api::V1::BaseController
   before_action :set_player, only: [ :show, :update, :destroy ]
 
   def index
-    @players = Player.all
+    if params[:status].present?
+      @players = Player.filter_by_status(status: params[:status]) 
+    elsif params[:ranking].present?
+      @players = Player.order_per_ranking(ranking: params[:ranking])
+    else
+      @players = Player.all
+    end  
   end
 
   def show
@@ -32,12 +38,14 @@ class Api::V1::PlayersController < Api::V1::BaseController
 
   private
 
+
   def set_player
     @player = Player.find(params[:id])
   end
 
   def player_params
     params.require(:player).permit(:nickname, :avatar, :status, :ranking)
+    params.slice(:status, :ranking)
   end
 
   def render_error
