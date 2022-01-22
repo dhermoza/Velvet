@@ -3,7 +3,11 @@ Rails.application.routes.draw do
   # resources :players
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
-      resources :players
+      resources :players do
+        collection do
+          get :hall
+        end
+      end
     end
   end
 end
