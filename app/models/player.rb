@@ -3,7 +3,7 @@ class Player < ApplicationRecord
 
   scope :filter_by_status, -> (status) { where status }
   scope :order_per_ranking, -> (ranking) { order ranking }
-  
+
   STATUS = [
     ['Todos',nil],
     ['Oro',"oro"],

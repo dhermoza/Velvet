@@ -3,12 +3,12 @@ class Api::V1::PlayersController < Api::V1::BaseController
 
   def index
     if params[:status].present?
-      @players = Player.filter_by_status(status: params[:status]) 
+      @players = Player.filter_by_status(status: params[:status])
     elsif params[:ranking].present?
       @players = Player.order_per_ranking(ranking: params[:ranking])
     else
       @players = Player.all
-    end  
+    end
   end
 
   def show
