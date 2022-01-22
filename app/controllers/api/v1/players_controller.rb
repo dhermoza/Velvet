@@ -3,7 +3,7 @@ class Api::V1::PlayersController < Api::V1::BaseController
 
   def index
     if params[:query].present?
-    
+
       query = " \
         players.id LIKE :query \
         OR players.nickname LIKE :query \
@@ -14,15 +14,15 @@ class Api::V1::PlayersController < Api::V1::BaseController
       sql_query = "player.id LIKE :query"
       @players = Player.where(sql_query, query: params[:query])
     elsif params[:status].present?
-      @players = Player.filter_by_status(status: params[:status]) 
+      @players = Player.filter_by_status(status: params[:status])
     elsif params[:ranking].present?
       @players = Player.order_per_ranking(ranking: params[:ranking])
     else
       @players = Player.all.order("ranking DESC")
-    end  
+    end
   end
 
-  def hall 
+  def hall
     @players = Player.all.where(status: "oro").first(10).order("ranking DESC")
   end
 
