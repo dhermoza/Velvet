@@ -1,5 +1,5 @@
 class Player < ApplicationRecord
-  include Filterable
+  #include Filterable
   validates :nickname, :avatar, :ranking, :status, presence: true
 
   scope :filter_by_status, -> (status) { where status: status }
