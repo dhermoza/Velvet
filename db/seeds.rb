@@ -32,6 +32,6 @@ puts 'seeds starting'
 end
 
 # player1 = Player.create(nickname: Faker::Games::Zelda.character, ranking: rand(0..1000), status: "oro", avatar: "https://drive.google.com/thumbnail?id=1FvgHhPmYNwruvKSjok1dp-ikpKVD2O5z")
-puts player1.nickname
+#puts player1.nickname
 
 puts 'seeds ending'
