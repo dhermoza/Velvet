@@ -22,6 +22,10 @@ class Api::V1::PlayersController < Api::V1::BaseController
     end  
   end
 
+  def hall 
+    @players = Player.all.where(status: "oro").order("ranking DESC")
+  end
+
   def show
   end
 
