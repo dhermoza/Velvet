@@ -1,7 +1,8 @@
 class Player < ApplicationRecord
   # include Filterable
+  # self.per_page = 20
   validates :nickname, :avatar, :ranking, :status, presence: true
-  self.per_page = 20
+
   scope :filter_by_status, ->(status) { where status: status }
   scope :order_per_ranking, ->(ranking) { order ranking }
   # scope :desc, order("players.player_at DESC")

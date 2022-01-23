@@ -24,7 +24,7 @@ class Api::V1::PlayersController < Api::V1::BaseController
   def paginated_players
     # byebug
     @players = Player.all.order('nickname ASC')
-    @paginated_players = @players.paginate(page: params[:page])
+    @paginated_players = @players.paginate(page: params[:page], per_page: 20)
     render json: {
       players: @paginated_players,
       current: @paginated_players.current_page,
