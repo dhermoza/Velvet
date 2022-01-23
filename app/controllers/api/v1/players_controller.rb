@@ -3,28 +3,33 @@ class Api::V1::PlayersController < Api::V1::BaseController
 
   def index
     if params[:query].present?
-
       query = " \
         players.id LIKE :query \
         OR players.nickname LIKE :query \
         OR players.status LIKE :query \
       "
-      @players = Player.where(query, query: "%#{params[:query]}%").order("ranking DESC")
+      @players = Player.where(query, query: "%#{params[:query]}%").order('ranking DESC')
     elsif params[:query].present?
-      sql_query = "player.id LIKE :query"
+      sql_query = 'player.id LIKE :query'
       @players = Player.where(sql_query, query: params[:query])
     elsif params[:status].present?
       @players = Player.filter_by_status(status: params[:status])
     elsif params[:ranking].present?
       @players = Player.order_per_ranking(ranking: params[:ranking])
     else
-      @players = Player.all.paginate(:page => params[:page], per_page: 20)
-      render json: {
-        players: @players,
-        page: @players.current_page,
-        pages: @players.total_pages,
-      }
+      @players = Player.all.order('nickname ASC')
     end
+  end
+
+  def paginated_players
+    # byebug
+    @players = Player.all.order('nickname ASC')
+    @paginated_players = @players.paginate(page: params[:page])
+    render json: {
+      players: @paginated_players,
+      current: @paginated_players.current_page,
+      page_count: @paginated_players.total_pages
+    }
   end
 
   def hall
@@ -58,7 +63,6 @@ class Api::V1::PlayersController < Api::V1::BaseController
 
   private
 
-
   def set_player
     @player = Player.find(params[:id])
   end
@@ -72,8 +76,6 @@ class Api::V1::PlayersController < Api::V1::BaseController
   end
 
   def render_error
-    render json: { errors: @player.errors.full_messages },
-      status: :unprocessable_entity
+    render json: { errors: @player.errors.full_messages }, status: :unprocessable_entity
   end
-
 end
