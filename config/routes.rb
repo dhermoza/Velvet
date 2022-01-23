@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   root to: 'players#index'
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
+      get '/all_players_paginated/:page', to: 'players#paginated_players'
       resources :players do
         collection do
           get :hall
