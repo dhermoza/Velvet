@@ -19,6 +19,11 @@ class Api::V1::PlayersController < Api::V1::BaseController
       @players = Player.order_per_ranking(ranking: params[:ranking])
     else
       @players = Player.all.paginate(:page => params[:page], per_page: 20)
+      render json: {
+        players: @players,
+        page: @players.current_page,
+        pages: @players.total_pages,
+      }
     end
   end
 
