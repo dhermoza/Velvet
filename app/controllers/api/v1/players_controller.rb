@@ -18,7 +18,7 @@ class Api::V1::PlayersController < Api::V1::BaseController
     elsif params[:ranking].present?
       @players = Player.order_per_ranking(ranking: params[:ranking])
     else
-      @players = Player.all
+      @players = Player.all.paginate(:page => params[:page], per_page: 20)
     end
   end
 
