@@ -3,15 +3,22 @@ class Api::V1::PlayersController < Api::V1::BaseController
 
   def index
     if params[:query].present?
-      sql_query = 'players.id LIKE :query'
-      @players = Player.where(sql_query, query: params[:query]).limit(1)
-
-    elsif params[:query].present?
-      query = " \
-        players.nickname LIKE :query \
-        OR players.status LIKE :query \
-      "
-      @players = Player.where(query, query: "%#{params[:query]}%").order('ranking DESC')
+      num_regex = /^ *\d[\d ]*$/
+      if params[:query].match?(num_regex)
+        sql_query = 'players.id LIKE :query'
+        @players = Player.where(sql_query, query: params[:query])
+      else
+        query = " \
+          players.nickname LIKE :query \
+          OR players.status LIKE :query \
+        "
+        @players = Player.where(query, query: "%#{params[:query]}%").order('ranking DESC')
+      end
+      
+    elsif params[:query] == `^[0-9]*`.present?
+      sql_query = 'player.id LIKE :query'
+      @players = Player.where(sql_query, query: params[:query])
+    elsif params[:status].present?
       @players = Player.filter_by_status(status: params[:status])
     elsif params[:ranking].present?
       @players = Player.order_per_ranking(ranking: params[:ranking])
