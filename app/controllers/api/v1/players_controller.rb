@@ -3,28 +3,28 @@ class Api::V1::PlayersController < Api::V1::BaseController
 
   def index
     if params[:query].present?
+      sql_query = 'players.id LIKE :query'
+      @players = Player.where(sql_query, query: params[:query]).limit(1)
+
+    elsif params[:query].present?
       query = " \
-        players.id LIKE :query \
-        OR players.nickname LIKE :query \
+        players.nickname LIKE :query \
         OR players.status LIKE :query \
       "
       @players = Player.where(query, query: "%#{params[:query]}%").order('ranking DESC')
-    elsif params[:query].present?
-      sql_query = 'player.id LIKE :query'
-      @players = Player.where(sql_query, query: params[:query])
-    elsif params[:status].present?
       @players = Player.filter_by_status(status: params[:status])
     elsif params[:ranking].present?
       @players = Player.order_per_ranking(ranking: params[:ranking])
     else
-      @players = Player.all.order('nickname ASC')
+      @players = Player.all
     end
+    paginated_players(@players)
   end
 
-  def paginated_players
+  def paginated_players(players)
     # byebug
-    @players = Player.all.order('nickname ASC')
-    @paginated_players = @players.paginate(page: params[:page], per_page: 20)
+    # @players = Player.all
+    @paginated_players = players.paginate(page: params[:page], per_page: 20)
     render json: {
       players: @paginated_players,
       current: @paginated_players.current_page,
@@ -33,7 +33,8 @@ class Api::V1::PlayersController < Api::V1::BaseController
   end
 
   def hall
-    @players = Player.all.order(ranking: :desc).where(status: :oro).first(10)
+    limit_players = 10
+    @players = Player.all.where(status: "oro").limit(limit_players).order("ranking DESC")
   end
 
   def show
