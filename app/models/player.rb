@@ -3,6 +3,7 @@ class Player < ApplicationRecord
   # self.per_page = 20
   validates :nickname, :avatar, :ranking, :status, presence: true
 
+
   scope :filter_by_status, -> (status) { where status }
   scope :order_per_ranking, -> (ranking) { order ranking }
   # scope :desc, order("players.player_at DESC")
