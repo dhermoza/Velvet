@@ -31,7 +31,7 @@ class Api::V1::PlayersController < Api::V1::BaseController
   def paginated_players(players)
     # byebug
     # @players = Player.all
-    @paginated_players = players.paginate(page: params[:page], per_page: 20)
+    @paginated_players = players.paginate(page: params[:page], per_page: 20) if params[:page].present?
     render json: {
       players: @paginated_players,
       current: @paginated_players.current_page,
@@ -80,7 +80,7 @@ class Api::V1::PlayersController < Api::V1::BaseController
   end
 
   def filtering_params(params)
-    params.slice(:status, :ranking, :query)
+    params.slice(:status, :ranking, :query, :page)
   end
 
   def render_error
