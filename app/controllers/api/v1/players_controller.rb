@@ -14,7 +14,7 @@ class Api::V1::PlayersController < Api::V1::BaseController
         "
         @players = Player.where(query, query: "%#{params[:query]}%").order('ranking DESC')
       end
-      
+
     elsif params[:query] == `^[0-9]*`.present?
       sql_query = 'player.id LIKE :query'
       @players = Player.where(sql_query, query: params[:query])
@@ -31,7 +31,7 @@ class Api::V1::PlayersController < Api::V1::BaseController
   def paginated_players(players)
     # byebug
     # @players = Player.all
-    @paginated_players = players.paginate(page: params[:page], per_page: 20) if params[:page].present?
+    @paginated_players = players.paginate(page: params[:page], per_page: 20)
     render json: {
       players: @paginated_players,
       current: @paginated_players.current_page,
